@@ -1,0 +1,68 @@
+{
+ "properties": {
+  "displayName": "Deny-ResourceGroup-RequireTag",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "category": "Governance",
+   "createdBy": "501a445a-9c21-4fc5-ac38-ee5715fb6795",
+   "createdOn": "2021-03-18T08:41:17.4005833Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "tagName": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Name",
+     "description": "Name of the tag, such as 'ring'"
+    },
+    "defaultValue": "ring"
+   },
+   "allowedTagValues": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "Allowed Tag Values",
+     "description": "Allowed values for the tag"
+    },
+    "defaultValue": [
+     "r0",
+     "r1",
+     "r2",
+     "r3",
+     "r4"
+    ]
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+     },
+     {
+      "not": {
+       "allOf": [
+        {
+         "field": "[concat('tags[', parameters('tagName'), ']')]",
+         "exists": true
+        },
+        {
+         "field": "[concat('tags[', parameters('tagName'), ']')]",
+         "in": "[parameters('allowedTagValues')]"
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "then": {
+    "effect": "deny"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/fawohlsc/providers/Microsoft.Authorization/policyDefinitions/0b6ff281-73fc-4e20-b66c-a25ee2148ce9",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "0b6ff281-73fc-4e20-b66c-a25ee2148ce9"
+}

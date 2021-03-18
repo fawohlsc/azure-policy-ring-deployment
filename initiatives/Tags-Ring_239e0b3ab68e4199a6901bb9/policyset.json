@@ -1,0 +1,79 @@
+{
+ "properties": {
+  "displayName": "Tags-Ring",
+  "policyType": "Custom",
+  "description": "",
+  "metadata": {
+   "category": "Governance",
+   "version": "1.0.0",
+   "createdBy": "501a445a-9c21-4fc5-ac38-ee5715fb6795",
+   "createdOn": "2021-03-18T09:31:54.8335641Z",
+   "updatedBy": "501a445a-9c21-4fc5-ac38-ee5715fb6795",
+   "updatedOn": "2021-03-18T09:36:10.3784282Z"
+  },
+  "parameters": {
+   "tagName": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Name",
+     "description": "Name of the tag, such as 'ring'."
+    },
+    "defaultValue": "ring"
+   },
+   "tagValue": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Value",
+     "description": "Value of the tag, such as 'r0'"
+    },
+    "defaultValue": "r4"
+   },
+   "allowedTagValues": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "Allowed Tag Values",
+     "description": "Allowed values for the tag."
+    },
+    "defaultValue": [
+     "r0",
+     "r1",
+     "r2",
+     "r3",
+     "r4"
+    ]
+   }
+  },
+  "policyDefinitions": [
+   {
+    "policyDefinitionReferenceId": "Modify-ResourceGroup-Tag_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fawohlsc/providers/Microsoft.Authorization/policyDefinitions/dddfa51e-f1a8-463e-a516-faa23179e3e7",
+    "parameters": {
+     "tagName": {
+      "value": "[parameters('tagName')]"
+     },
+     "tagValue": {
+      "value": "[parameters('tagValue')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Deny-ResourceGroup-RequireTag_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fawohlsc/providers/Microsoft.Authorization/policyDefinitions/0b6ff281-73fc-4e20-b66c-a25ee2148ce9",
+    "parameters": {
+     "tagName": {
+      "value": "[parameters('tagName')]"
+     },
+     "allowedTagValues": {
+      "value": "[parameters('allowedTagValues')]"
+     }
+    },
+    "groupNames": []
+   }
+  ],
+  "policyDefinitionGroups": []
+ },
+ "id": "/subscriptions/90ec6d13-614a-4eca-a69b-79e4f84f20ab/providers/Microsoft.Authorization/policySetDefinitions/239e0b3ab68e4199a6901bb9",
+ "type": "Microsoft.Authorization/policySetDefinitions",
+ "name": "239e0b3ab68e4199a6901bb9"
+}

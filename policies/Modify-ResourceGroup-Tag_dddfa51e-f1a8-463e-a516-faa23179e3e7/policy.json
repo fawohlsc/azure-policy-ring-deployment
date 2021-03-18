@@ -1,0 +1,74 @@
+{
+ "properties": {
+  "displayName": "Modify-ResourceGroup-Tag",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "category": "Governance",
+   "createdBy": "501a445a-9c21-4fc5-ac38-ee5715fb6795",
+   "createdOn": "2021-03-18T09:24:36.1842939Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "tagName": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Name",
+     "description": "Name of the tag, such as 'ring'"
+    },
+    "defaultValue": "ring"
+   },
+   "tagValue": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Value",
+     "description": "Value of the tag, such as 'r0'"
+    },
+    "defaultValue": "r0"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+     },
+     {
+      "not": {
+       "allOf": [
+        {
+         "field": "[concat('tags[', parameters('tagName'), ']')]",
+         "exists": true
+        },
+        {
+         "field": "[concat('tags[', parameters('tagName'), ']')]",
+         "equals": "[parameters('tagValue')]"
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "then": {
+    "effect": "modify",
+    "details": {
+     "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+     ],
+     "operations": [
+      {
+       "operation": "addOrReplace",
+       "field": "[concat('tags[', parameters('tagName'), ']')]",
+       "value": "[parameters('tagValue')]"
+      }
+     ]
+    }
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/fawohlsc/providers/Microsoft.Authorization/policyDefinitions/dddfa51e-f1a8-463e-a516-faa23179e3e7",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "dddfa51e-f1a8-463e-a516-faa23179e3e7"
+}

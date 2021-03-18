@@ -1,0 +1,90 @@
+{
+ "properties": {
+  "displayName": "Audit-Route-NextHopVirtualAppliance-Ring",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "category": "Network",
+   "createdBy": "501a445a-9c21-4fc5-ac38-ee5715fb6795",
+   "createdOn": "2021-03-16T09:10:10.2583108Z",
+   "updatedBy": "83ed2ad3-5002-4cca-89cc-40fbfcd9094b",
+   "updatedOn": "2021-03-16T10:36:09.4406978Z",
+   "gitHubPolicy": {
+    "digest": "cbad07014a05615f4ae4206dc0f5ffff5a2e986f",
+    "repoName": "fawohlsc/azure-policy",
+    "commitSha": "45021612917bd5c2b3f523c878e63ea71bf26c00",
+    "runUrl": "https://github.com/fawohlsc/azure-policy/actions/runs/657244888",
+    "filepath": "policies/Audit-Route-NextHopVirtualAppliance-Ring_58de400d-ea80-4d2c-88e8-bc3e59aae7d2"
+   }
+  },
+  "parameters": {
+   "rings": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "rings",
+     "description": "The list of tags that can be specified when deploying resources."
+    },
+    "allowedValues": [
+     "r0",
+     "r1",
+     "r2",
+     "r3",
+     "r4"
+    ]
+   },
+   "routeTableSettings": {
+    "type": "Object",
+    "metadata": {
+     "displayName": "Route Table Settings",
+     "description": "Location-specific settings for route tables."
+    }
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "value": "[resourceGroup().tags['ring']]",
+      "in": "[parameters('rings')]"
+     },
+     {
+      "allOf": [
+       {
+        "field": "type",
+        "equals": "Microsoft.Network/routeTables"
+       },
+       {
+        "count": {
+         "field": "Microsoft.Network/routeTables/routes[*]",
+         "where": {
+          "allOf": [
+           {
+            "field": "Microsoft.Network/routeTables/routes[*].addressPrefix",
+            "equals": "0.0.0.0/0"
+           },
+           {
+            "field": "Microsoft.Network/routeTables/routes[*].nextHopType",
+            "equals": "VirtualAppliance"
+           },
+           {
+            "field": "Microsoft.Network/routeTables/routes[*].nextHopIpAddress",
+            "equals": "[parameters('routeTableSettings')[field('location')].virtualApplianceIpAddress]"
+           }
+          ]
+         }
+        },
+        "equals": 0
+       }
+      ]
+     }
+    ]
+   },
+   "then": {
+    "effect": "audit"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/fawohlsc/providers/Microsoft.Authorization/policyDefinitions/58de400d-ea80-4d2c-88e8-bc3e59aae7d2",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "58de400d-ea80-4d2c-88e8-bc3e59aae7d2"
+}

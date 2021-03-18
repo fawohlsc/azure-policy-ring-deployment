@@ -1,0 +1,100 @@
+{
+ "properties": {
+  "displayName": "RouteTable-Ring",
+  "policyType": "Custom",
+  "metadata": {
+   "category": "Network",
+   "createdBy": "501a445a-9c21-4fc5-ac38-ee5715fb6795",
+   "createdOn": "2021-03-16T09:24:26.0038227Z",
+   "updatedBy": "83ed2ad3-5002-4cca-89cc-40fbfcd9094b",
+   "updatedOn": "2021-03-16T10:36:10.4411902Z",
+   "gitHubPolicy": {
+    "digest": "49a9f961992b2810d0dd4093ea4c36dcc95dff1d",
+    "repoName": "fawohlsc/azure-policy",
+    "commitSha": "45021612917bd5c2b3f523c878e63ea71bf26c00",
+    "runUrl": "https://github.com/fawohlsc/azure-policy/actions/runs/657244888",
+    "filepath": "initiatives/RouteTable-Ring_a6177dc62ac144baba6f74be"
+   }
+  },
+  "parameters": {
+   "rings": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "rings"
+    },
+    "allowedValues": [
+     "r0",
+     "r1",
+     "r2",
+     "r3",
+     "r4"
+    ],
+    "defaultValue": [
+     "r0"
+    ]
+   },
+   "routeTableSettings": {
+    "type": "Object",
+    "metadata": {
+     "displayName": "routeTableSettings"
+    },
+    "defaultValue": {
+     "northeurope": {
+      "virtualApplianceIpAddress": "10.0.0.23"
+     },
+     "westeurope": {
+      "virtualApplianceIpAddress": "10.1.0.23"
+     },
+     "disabled": {
+      "virtualApplianceIpAddress": ""
+     }
+    }
+   }
+  },
+  "policyDefinitions": [
+   {
+    "policyDefinitionReferenceId": "Deny-Route-NextHopVirtualAppliance-Ring_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fawohlsc/providers/Microsoft.Authorization/policyDefinitions/5378d48e-4ae3-4e71-a032-3d77f94f7cde",
+    "parameters": {
+     "rings": {
+      "value": "[parameters('rings')]"
+     },
+     "routeTableSettings": {
+      "value": "[parameters('routeTableSettings')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Audit-Route-NextHopVirtualAppliance-Ring_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fawohlsc/providers/Microsoft.Authorization/policyDefinitions/58de400d-ea80-4d2c-88e8-bc3e59aae7d2",
+    "parameters": {
+     "rings": {
+      "value": "[parameters('rings')]"
+     },
+     "routeTableSettings": {
+      "value": "[parameters('routeTableSettings')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Modify-RouteTable-NextHopVirtualAppliance-Ring_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fawohlsc/providers/Microsoft.Authorization/policyDefinitions/58de400d-ea80-4d2c-88e8-bc3e59aae7db",
+    "parameters": {
+     "rings": {
+      "value": "[parameters('rings')]"
+     },
+     "routeTableSettings": {
+      "value": "[parameters('routeTableSettings')]"
+     }
+    },
+    "groupNames": []
+   }
+  ],
+  "policyDefinitionGroups": []
+ },
+ "id": "/subscriptions/90ec6d13-614a-4eca-a69b-79e4f84f20ab/providers/Microsoft.Authorization/policySetDefinitions/a6177dc62ac144baba6f74be",
+ "type": "Microsoft.Authorization/policySetDefinitions",
+ "name": "a6177dc62ac144baba6f74be"
+}

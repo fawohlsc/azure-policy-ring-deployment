@@ -1,0 +1,44 @@
+name: manage-azure-policy-5ea39e23
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'initiatives/RouteTable-Ring_a6177dc62ac144baba6f74be/**'
+#      - 'initiatives/Tags-Ring_239e0b3ab68e4199a6901bb9/**'
+#      - 'policies/Deny-ResourceGroup-RequireTag_0b6ff281-73fc-4e20-b66c-a25ee2148ce9/**'
+#      - 'policies/Deny-Route-NextHopVirtualAppliance-Ring_5378d48e-4ae3-4e71-a032-3d77f94f7cde/**'
+#      - 'policies/Audit-Route-NextHopVirtualAppliance-Ring_58de400d-ea80-4d2c-88e8-bc3e59aae7d2/**'
+#      - 'policies/Modify-RouteTable-NextHopVirtualAppliance-Ring_58de400d-ea80-4d2c-88e8-bc3e59aae7db/**'
+#      - 'policies/Modify-ResourceGroup-Tag_dddfa51e-f1a8-463e-a516-faa23179e3e7/**'
+#      - .github/workflows/manage-azure-policy-5ea39e23.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_5ea39e23}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          initiatives/RouteTable-Ring_a6177dc62ac144baba6f74be/**
+          initiatives/Tags-Ring_239e0b3ab68e4199a6901bb9/**
+          policies/Deny-ResourceGroup-RequireTag_0b6ff281-73fc-4e20-b66c-a25ee2148ce9/**
+          policies/Deny-Route-NextHopVirtualAppliance-Ring_5378d48e-4ae3-4e71-a032-3d77f94f7cde/**
+          policies/Audit-Route-NextHopVirtualAppliance-Ring_58de400d-ea80-4d2c-88e8-bc3e59aae7d2/**
+          policies/Modify-RouteTable-NextHopVirtualAppliance-Ring_58de400d-ea80-4d2c-88e8-bc3e59aae7db/**
+          policies/Modify-ResourceGroup-Tag_dddfa51e-f1a8-463e-a516-faa23179e3e7/**
